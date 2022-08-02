@@ -66,5 +66,5 @@ app.get('/api/v1/logout', async(req, res) => {
 
 app.use('/api/v1/auth', require('./routes/auth'));
 app.use('/api/v1/users', require('./routes/users'));
-
+app.use('/api/v1/images', require('./routes/imagenes'))
 module.exports = app;
