@@ -47,4 +47,17 @@ router.post('/', async(req, res) => {
     }
 });
 
+router.delete('/:imgId', async (req, res) => {
+    const _Id = req.params.imgId;
+    try {
+        const ImagenDB = await Imagen.findOneAndRemove({ "_id": mongoose.Types.ObjectId(_Id) });
+        res.status(200).json(ImagenDB);
+    } catch (error) {
+        return res.status(400).json({
+            mensaje: 'An error has occurred',
+            error
+        })
+    }
+})
+
 module.exports = router;
