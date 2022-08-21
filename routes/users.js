@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
+const imagen = require('../models/imagen');
 
 router.get('/', async(req, res) => {
     try {
@@ -67,6 +68,10 @@ router.put('/:id', async(req, res) => {
 router.delete('/:id', async(req, res) => {
     const _id = req.params.id;
     try {
+        console.log(_id)
+        const username = await User.findById(_id)
+        console.log("username",username)
+        await imagen.deleteMany({usernameAsociated: {$eq : username.username}})
         const userDB = await User.findByIdAndDelete(_id);
         res.status(200).json(userDB);
     } catch (error) {

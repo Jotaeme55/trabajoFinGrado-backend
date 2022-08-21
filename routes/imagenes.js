@@ -60,4 +60,17 @@ router.delete('/:imgId', async (req, res) => {
     }
 })
 
+router.get('/deleteImagesByUser/:username', async (req, res) => {
+    const username = req.params.username;
+    try {
+        const ImagenDB = await Imagen.deleteMany({usernameAsociated: {$eq : username}})
+        res.status(200).json(ImagenDB);
+    } catch (error) {
+        return res.status(400).json({
+            mensaje: 'An error has occurred',
+            error
+        })
+    }
+})
+
 module.exports = router;
