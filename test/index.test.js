@@ -15,7 +15,6 @@ describe('Register: ', () => {
         .send({"username": "testUsername", "password": "testPassword","email":"pepe@gmail.com","telefono":666666666})
         .end(function(err, res) {
             userId = res.body.userId
-            console.log(userId)
             expect(res).to.have.status(200);
         done();
         });
