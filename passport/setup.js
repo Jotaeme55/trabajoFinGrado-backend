@@ -15,9 +15,9 @@ passport.deserializeUser((id, done) => {
 
 // Local Strategy
 passport.use(
-    new LocalStrategy({ usernameField: "username" }, (username, password, done) => {
+    new LocalStrategy({ emailField: "email" }, (email, password, done) => {
         // Match User
-        User.findOne({ "username": username })
+        User.findOne({ "email": email })
             .then(user => {
                 // Create new User
                 if (user) {
@@ -28,11 +28,11 @@ passport.use(
                         if (isMatch) {
                             return done(null, user);
                         } else {
-                            return done(null, false, { field: "password", message: "Contraseña incorrecta para el usuario: " + username});
+                            return done(null, false, { field: "password", message: "Contraseña incorrecta para el usuario: " + email });
                         }
                     });
                 } else {
-                    return done(null, false, { field: "username", message: "No se encontró al usuario: " + username });
+                    return done(null, false, { field: "email", message: "No se encontró al usuario: " + email });
                 }
             })
             .catch(err => {
@@ -40,5 +40,6 @@ passport.use(
             });
     })
 );
+
 
 module.exports = passport;

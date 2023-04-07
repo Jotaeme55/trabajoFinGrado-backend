@@ -2,7 +2,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 
 
-const DB_URL = process.env.MONGO_URL || "mongodb://localhost/tfgdb"
+const DB_URL = process.env.MONGO_URL || "mongodb://localhost/beelasy"
 
 const dbConnect = function () {
   const db = mongoose.connection;

@@ -4,7 +4,7 @@ var cookieParser = require("cookie-parser");
 var cors = require("cors");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
-const passport = require("./passport/setup").default;
+const passport = require("./passport/setup");
 
 var app = express();
 const corsOptions ={
@@ -29,42 +29,23 @@ app.use(
       secret: "very secret this is",
       resave: false,
       saveUninitialized: true,
-      store: MongoStore.create({ mongoUrl: process.env.MONGO_URL || "mongodb://localhost/tfgdb" })
+      store: MongoStore.create({ mongoUrl: process.env.MONGO_URL || "mongodb://localhost/beelasy" })
   })
 );
 
 
-frontendURL = process.env.VUE_APP_FRONTEND_URL || "localhost:8080"
+frontendURL = process.env.VUE_APP_FRONTEND_URL || "http://localhost:8081"
 
-app.all('*', function(req,res,next) {
-  if (req.path === '/api/v1/auth/login' || req.path === '/api/v1/auth/register')
-    next();
-  else {
-    if (req.session) {
-      next();
-    } else
-      return res.sendStatus(401);
-  }
-});
+
 
 app.get("/", (req, res) => {
   res.redirect(frontendURL);
 });
 
 
-app.get('/api/v1/logout', async(req, res) => {
-  try {
-      res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
-      return res.sendStatus(401);
-  } catch (error) {
-      return res.status(400).json({
-      mensaje: 'An error has occurred',
-      error
-      })
-  }
-});
-
-app.use('/api/v1/auth', require('./routes/auth'));
+app.use('/api/v1/index', require('./routes/indexRoute'))
 app.use('/api/v1/users', require('./routes/users'));
-app.use('/api/v1/images', require('./routes/imagenes'))
+app.use('/api/v1/auth', require('./routes/auth'));
+app.use('/api/v1/sendConfirmation', require('./routes/sendConfirmation'));
+
 module.exports = app;
