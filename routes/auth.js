@@ -45,7 +45,7 @@ router.post('/google', async (req, res) => {
         const aleatorio = Math.floor(Math.random() * Math.pow(10, 6)).toString().padStart(6, '0');
         await JwtToken.findOneAndUpdate({ user_id_asociated: userId }, { code: aleatorio }, { upsert: true });
     
-        const token = jwt.sign({ userId }, palabra_secreta_jwt);
+        const token = jwt.sign({ code:aleatorio }, palabra_secreta_jwt);
         const message = { userId, token, email };
         const mensajeJson = JSON.stringify(message);
         const mensajeCifrado = CryptoJS.AES.encrypt(mensajeJson, palabra_secreta_aes).toString();
@@ -73,7 +73,7 @@ router.post("/login", async (req, res) => {
         let aleatorio = Math.floor(Math.random() * Math.pow(10, 6)).toString().padStart(6, '0');
         await JwtToken.findOneAndUpdate({ user_id_asociated: userId }, { code: aleatorio }, { upsert: true });
   
-        let token = jwt.sign({ userId }, palabra_secreta_jwt);
+        let token = jwt.sign({ code:aleatorio }, palabra_secreta_jwt);
 
         let message = { userId, token };
         let mensajeJson = JSON.stringify(message);
@@ -146,7 +146,7 @@ router.post("/register/:code", [
         let aleatorio = Math.floor(Math.random() * Math.pow(10, 6)).toString().padStart(6, '0');
         await JwtToken.findOneAndUpdate({ user_id_asociated: userId }, { code: aleatorio }, { upsert: true });
     
-        let token = jwt.sign({ userId }, palabra_secreta_jwt);
+        let token = jwt.sign({ code:aleatorio }, palabra_secreta_jwt);
         
         let message = { userId, token };
         let mensajeJson = JSON.stringify(message);
